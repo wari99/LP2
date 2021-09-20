@@ -20,7 +20,11 @@ public class Ellipse extends Figure{
 
 		this.r = r;
 		this.g = g;
-		this.b = b;		
+		this.b = b;
+		
+		this.rC = rC;
+		this.gC = gC;
+		this.bC = bC;			
 	}
 	
 	
