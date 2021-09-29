@@ -39,35 +39,36 @@ class ProjetoFrame extends JFrame {
 		
 		
 	this.addMouseListener(
-		new MouseAdapter() {
+			new MouseAdapter() {
 			public void mousePressed (MouseEvent evt) { 
 				focus = null;
 				int x = evt.getX();
 				int y = evt.getY();
-					
-				for (Figure figs: figs) { //varrer a lista de figuras
-					if (figs.clicked(x,y)) { //se uma for uma fig no ponto x y 
-						focus = figs; // foco se torna a figura
-						repaint();
+				
+				for (Figure fig: figs) {
+					if (fig.clicked(x,y)) { 
+						focus = fig; 
+						figs.add(focus);
+						figs.remove(focus);														repaint();
 						break;
 					}
 					else {
 						focus = null;
 						repaint();
-					}
+					}				
 				}
 			}
 		}
-		);
+	);
 		
 		this.addMouseMotionListener(
 			new MouseMotionAdapter(){
 				public void mouseDragged (MouseEvent evt) {
-					for (Figure figs: figs){
-						if (focus == figs) { //se o foco estiver na figura
+					for (Figure fig: figs){
+						if (focus == fig) { //se o foco estiver na figura
 							focus.x = evt.getX() - focus.w;
 							focus.y = evt.getY() - focus.h;
-							repaint();								
+							repaint();									
 						}
 					}
 				}
