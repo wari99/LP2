@@ -15,77 +15,73 @@ import java.awt.event.WindowEvent;
 import figures.*;
 
 class ProjetoApp {
-    public static void main (String[] args) {
-        ProjetoFrame frame = new ProjetoFrame();
-        frame.setVisible(true);
-    }
+	public static void main (String[] args) {
+	ProjetoFrame frame = new ProjetoFrame();
+	frame.setVisible(true);
+	}
 }
 
 class ProjetoFrame extends JFrame {
-	
 	ArrayList<Figure> figs = new ArrayList<Figure>();
 	Random rand = new Random();
 
 	Point posicaodomouse;
-    Figure focus = null;	
-
+	Figure focus = null;	
 	
-    ProjetoFrame () {
+	ProjetoFrame () {
         this.addWindowListener (
-            new WindowAdapter() {
+		new WindowAdapter() {
                 public void windowClosing (WindowEvent e) {
                     System.exit(0);
-                }
-            }
-        );
+		}
+	}
+	);
 		
 		
-		this.addMouseListener(
-				new MouseAdapter() {
-				public void mousePressed (MouseEvent evt) { 
-					focus = null;
-					int x = evt.getX();
-					int y = evt.getY();
+	this.addMouseListener(
+		new MouseAdapter() {
+			public void mousePressed (MouseEvent evt) { 
+				focus = null;
+				int x = evt.getX();
+				int y = evt.getY();
 					
-					for (Figure figs: figs) { //varrer a lista de figuras
-						if (figs.clicked(x,y)) { //se uma for uma fig no ponto x y 
-							focus = figs; // foco se torna a figura
-							repaint();
-							break;
-						}
-						else {
-							focus = null;
-							repaint();
-						}
-				   }
+				for (Figure figs: figs) { //varrer a lista de figuras
+					if (figs.clicked(x,y)) { //se uma for uma fig no ponto x y 
+						focus = figs; // foco se torna a figura
+						repaint();
+						break;
+					}
+					else {
+						focus = null;
+						repaint();
+					}
 				}
 			}
+		}
 		);
 		
 		this.addMouseMotionListener(
 			new MouseMotionAdapter(){
 				public void mouseDragged (MouseEvent evt) {
 					for (Figure figs: figs){
-							if (focus == figs) { //se o foco estiver na figura
-								focus.x = evt.getX() - focus.w;
-								focus.y = evt.getY() - focus.h;
-								repaint();								
-							}
+						if (focus == figs) { //se o foco estiver na figura
+							focus.x = evt.getX() - focus.w;
+							focus.y = evt.getY() - focus.h;
+							repaint();								
+						}
 					}
 				}
 			}
 		);
 		
-        this.addKeyListener ( 
-            new KeyAdapter() {
-                public void keyPressed (KeyEvent evt) {
+        	this.addKeyListener ( 
+            		new KeyAdapter() {
+                		public void keyPressed (KeyEvent evt) {
 					Point posicaodomouse = getMousePosition();
 					
 					int w = rand.nextInt(70)+10;
 					int h = rand.nextInt(70)+10;
-					
-					int teclapressionada = evt.getKeyCode();
-					
+	
 					int r1 = rand.nextInt(255);
 					int g1 = rand.nextInt(255);
 					int b1 = rand.nextInt(255);
@@ -94,50 +90,63 @@ class ProjetoFrame extends JFrame {
 					int g2 = rand.nextInt(255);	
 					int b2 = rand.nextInt(255);
 					
-                    int inicioangulo = rand.nextInt(360);
-                    int finalangulo = rand.nextInt(360);			
-
-                    Color contorno = new Color(rand.nextInt(255),rand.nextInt(255),rand.nextInt(255));					
-					
-                    if (evt.getKeyChar() == 'e') {		
+                    			int inicioangulo = rand.nextInt(360);
+                    			int finalangulo = rand.nextInt(360);			
+						
+					if (evt.getKeyChar() == 'e') {		
 						figs.add(new Ellipse(posicaodomouse.x,posicaodomouse.y,w,h,r1,g1,b1,r2,g2,b2));
-                        repaint();  
-                    }
+						repaint();  
+					}
 					
-					if (evt.getKeyChar() == 'r'){	
+					else if(evt.getKeyChar() == 'r'){	
 						figs.add(new Rect(posicaodomouse.x,posicaodomouse.y,w,h,r1,g1,b1,r2,g2,b2));
 						repaint(); 
 					}
 					
-                    if (evt.getKeyChar() == 't') {				
+					else if (evt.getKeyChar() == 't') {				
 						figs.add(new Triangulo(posicaodomouse.x,posicaodomouse.y,w,h,r1,g1,b1,r2,g2,b2));
 						repaint();
-                    }
+					}
 					
-                    if (evt.getKeyChar() == 'y') {
-                        figs.add(new Arco(posicaodomouse.x,posicaodomouse.y,w,h,r1,g1,b1,r2,g2,b2, inicioangulo, finalangulo));
+					else if (evt.getKeyChar() == 'y') {
+						figs.add(new Arco(posicaodomouse.x,posicaodomouse.y,w,h,r1,g1,b1,r2,g2,b2, inicioangulo, finalangulo));
 						repaint();
-					}					
-								
+					}	
+
+					if (evt.getKeyCode() == evt.VK_DELETE) {
+						figs.remove(focus);
+						focus = null;
+						repaint();
+					}
 					
-                }
-            }
-        );
+					else if (evt.getKeyChar() == '+'){
+						focus.w = focus.w + 10;
+						focus.h = focus.h + 10;
+						repaint();
+					}
+					
+					if(evt.getKeyChar() == '-') {		
+						focus.w = focus.w - 10;
+						focus.h = focus.h - 10;
+						repaint();
+					}		
+
+				}
+			}
+		);
 		
 	
-        this.setTitle("Projeto LP2");
-        this.setSize(550, 550);
-    }
+	this.setTitle("Projeto LP2");
+	this.setSize(550, 550);
+}
 
-    public void paint (Graphics g) {
-        super.paint(g);
+	public void paint (Graphics g) {
+		super.paint(g);
 		
 		for (Figure fig: this.figs){
 			fig.paint(g);
 		}
-    }
+	}
 }
 
 
-
-	
