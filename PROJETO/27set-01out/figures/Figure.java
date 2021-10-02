@@ -12,12 +12,8 @@ public abstract class Figure{
 	public Color contorno;
 	public Color fundo;
 
-//	public Color reserva;
 	public abstract void paint (Graphics g);
-	
-//	public Color corcontorno, corfundo;
-//    public abstract boolean contains(MouseEvent evt);
-	
+		
 	public Figure (int x, int y, int w, int h, Color contorno, Color fundo){
 		this.x = x;
 		this.y = y;
