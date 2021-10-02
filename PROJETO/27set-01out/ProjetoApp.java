@@ -25,8 +25,6 @@ class ProjetoApp {
 class ProjetoFrame extends JFrame {
 	ArrayList<Figure> figs = new ArrayList<Figure>();
 	Random rand = new Random();
-	
-	Color reserva;
 	Point posicaodomouse;
 	Figure focus = null;
 	
@@ -36,12 +34,10 @@ class ProjetoFrame extends JFrame {
                 public void windowClosing (WindowEvent e) {
                     System.exit(0);
 		}
-	}
-	);
-			
+	});	
 		
 	this.addMouseListener(
-			new MouseAdapter() {
+		new MouseAdapter() {
 			public void mousePressed (MouseEvent evt) { 
 				focus = null;
 				int x = evt.getX();
@@ -79,71 +75,70 @@ class ProjetoFrame extends JFrame {
 		
         	this.addKeyListener ( 
             		new KeyAdapter() {
-						public void keyPressed (KeyEvent evt) {
-							Point posicaodomouse = getMousePosition();
-							
-							int x = posicaodomouse.x;
-							int y = posicaodomouse.y;
-							int w = rand.nextInt(70)+10;
-							int h = rand.nextInt(70)+10;
-							
-							int inicioangulo = rand.nextInt(360);
-							int finalangulo = rand.nextInt(360);			
-
-							Color contorno = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-							Color fundo = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));	
-							
-							if (evt.getKeyChar() == 'e') {		
-								figs.add(new Ellipse(x,y,w,h,fundo,contorno));
-							}
-							else if(evt.getKeyChar() == 'r'){	
-								figs.add(new Rect(x,y,w,h,fundo,contorno));
-							}
-							else if (evt.getKeyChar() == 't') {				
-								figs.add(new Triangulo(x,y,w,h,fundo,contorno));
-							}
-							else if (evt.getKeyChar() == 'y') {
-								figs.add(new Arco(x,y,w,h,fundo,contorno,inicioangulo,finalangulo));
-							}	repaint();
+				public void keyPressed (KeyEvent evt) {
+					Point posicaodomouse = getMousePosition();
 						
-							if (focus != null){
-								if (evt.getKeyChar() == 'z' ){
-									focus.fundo = new Color(rand.nextInt(255),rand.nextInt(255), rand.nextInt(255));
-								}
-								if (evt.getKeyChar() == 'x' ){
-									focus.contorno = new Color(rand.nextInt(255),rand.nextInt(255), rand.nextInt(255));
-								} repaint();
-							}	
+					int x = posicaodomouse.x;
+					int y = posicaodomouse.y;
+					int w = rand.nextInt(70)+10;
+					int h = rand.nextInt(70)+10;
 							
-							if (evt.getKeyCode() == evt.VK_DELETE) {
-								figs.remove(focus);
-								focus = null;
-							}
-							else if (evt.getKeyChar() == '+'){
-								focus.w = focus.w + 5;
-								focus.h = focus.h + 5;
-							}
-							else if(evt.getKeyChar() == '-') {		
-								focus.w = focus.w - 5;
-								focus.h = focus.h - 5;
-							}
+					int inicioangulo = rand.nextInt(360);
+					int finalangulo = rand.nextInt(360);			
 
-							if (focus != null){
-								if (evt.getKeyCode() == KeyEvent.VK_UP) {
-									focus.y -= 5;
-								}
-								else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
-									focus.y += 5;
-								}
-								else if  (evt.getKeyCode() == KeyEvent.VK_LEFT){
-									focus.x -= 5;
-								} 
-								else if  (evt.getKeyCode() == KeyEvent.VK_RIGHT){
-									focus.x += 5;
-								}
-							}
+					Color contorno = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+					Color fundo = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));	
+							
+					if (evt.getKeyChar() == 'e') {		
+						figs.add(new Ellipse(x,y,w,h,fundo,contorno));
+					}
+					else if(evt.getKeyChar() == 'r'){	
+						figs.add(new Rect(x,y,w,h,fundo,contorno));
+					}
+					else if (evt.getKeyChar() == 't') {				
+					figs.add(new Triangulo(x,y,w,h,fundo,contorno));
+					}
+					else if (evt.getKeyChar() == 'y') {
+					figs.add(new Arco(x,y,w,h,fundo,contorno,inicioangulo,finalangulo));
+					}	repaint();
+						
+					if (focus != null){
+						if (evt.getKeyChar() == 'z' ){
+							focus.fundo = new Color(rand.nextInt(255),rand.nextInt(255), rand.nextInt(255));
+						}
+						if (evt.getKeyChar() == 'x' ){
+							focus.contorno = new Color(rand.nextInt(255),rand.nextInt(255), rand.nextInt(255));
+						} repaint();
+					}	
+						
+					if (evt.getKeyCode() == evt.VK_DELETE) {
+						figs.remove(focus);
+						focus = null;
+					}
+					else if (evt.getKeyChar() == '+'){
+						focus.w = focus.w + 5;
+						focus.h = focus.h + 5;
+					}
+					else if(evt.getKeyChar() == '-') {		
+						focus.w = focus.w - 5;
+						focus.h = focus.h - 5;
+					}
+					if (focus != null){
+						if (evt.getKeyCode() == KeyEvent.VK_UP) {
+							focus.y -= 5;
+						}
+						else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+							focus.y += 5;
+						}
+						else if  (evt.getKeyCode() == KeyEvent.VK_LEFT){
+							focus.x -= 5;
+						} 
+						else if  (evt.getKeyCode() == KeyEvent.VK_RIGHT){
+							focus.x += 5;
 						}
 					}
+				}
+			}
 		);	repaint();
 		
 	this.setTitle("Projeto LP2");
