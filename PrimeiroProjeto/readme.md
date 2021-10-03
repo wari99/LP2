@@ -5,9 +5,11 @@ elas aparecerão é determinado pela posição do cursor do mouse no momento em 
 são pressionadas. 
 
 É possível excluir figuras e movê-las pelo espaço tanto através do teclado quanto através do mouse, 
-assim como aumentar e diminuir o tamanho de todas que forem criadas. Por fim, todas as figuras do 
-projeto possuirão as mais variadas cores, uma vez que, estão sujeitas a aleatoriedade da tabela de 
-cores RGB. As cores mutáveis são as de contorno e as de fundo. Ambas são geradas aleatoriamente. 
+assim como aumentar e diminuir o tamanho de todas que forem criadas. As figuras em foco serão 
+contornadas por um retângulo vermelho para uma melhor visualização do usuário. Por fim, todas as 
+figuras do projeto possuirão as mais variadas cores, uma vez que, estão sujeitas a aleatoriedade da
+tabela de cores RGB. As cores mutáveis são as de contorno e as de fundo. Ambas são geradas aleatoriamente.
+Abaixo estão as teclas que ativarão comandos durante a execução do programa.
 
 ## Lista de Comandos
 
