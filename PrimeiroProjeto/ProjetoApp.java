@@ -26,9 +26,11 @@ class ProjetoFrame extends JFrame {
 	ArrayList<Figure> figs = new ArrayList<Figure>();
 	Random rand = new Random();
 	
-	Color reserva;
 	Point posicaodomouse;
+	Point posicaoatual;
+	Point posicaoanterior;
 	Figure focus = null;
+	int aux1, aux2;
 	
 	ProjetoFrame () {
         this.addWindowListener (
@@ -44,48 +46,55 @@ class ProjetoFrame extends JFrame {
 			new MouseAdapter() {
 			public void mousePressed (MouseEvent evt) { 
 				focus = null;
-				int x = evt.getX();
-				int y = evt.getY();
-				
+					
 				for (Figure fig: figs) {
-					if (fig.clicked(x,y)) { 					
+					if (fig.clicked(evt.getX(),evt.getY())) { 	
 						focus = fig; 
 						figs.add(focus);				
-						figs.remove(focus);						
+						figs.remove(focus);		
+						repaint();
 						break;
 					}
 					else {
 						focus = null;
 					}
-					repaint();
 				}
+				posicaoanterior = evt.getPoint();
+				repaint();			
+				
 			}
 		}
 	);
-		
+	
 		this.addMouseMotionListener(
 			new MouseMotionAdapter(){
 				public void mouseDragged (MouseEvent evt) {
 					for (Figure fig: figs){
 						if (focus == fig) {
-							focus.x = evt.getX() - focus.w/2;
-							focus.y = evt.getY() - focus.h/2;
+							posicaoatual = evt.getPoint();									
+							int dx = (int) (posicaoatual.getX() - posicaoanterior.getX());
+							int dy = (int) (posicaoatual.getY() - posicaoanterior.getY());
+							focus.drag(dx, dy);
+							posicaoanterior = posicaoatual;
+							
+							
 							repaint();									
 						}
-					}
+					}					
 				}
+				
 			}
 		);
 		
         	this.addKeyListener ( 
             		new KeyAdapter() {
 						public void keyPressed (KeyEvent evt) {
-							Point posicaodomouse = getMousePosition();
+							posicaodomouse = getMousePosition();
 							
 							int x = posicaodomouse.x;
 							int y = posicaodomouse.y;
-							int w = rand.nextInt(70)+10;
-							int h = rand.nextInt(70)+10;
+							int w = 80;
+							int h = 60;
 							
 							int inicioangulo = rand.nextInt(360);
 							int finalangulo = rand.nextInt(360);			
@@ -126,12 +135,14 @@ class ProjetoFrame extends JFrame {
 								focus = null;
 							}
 							else if (evt.getKeyChar() == '+'){
-								focus.w = focus.w + 5;
-								focus.h = focus.h + 5;
+								focus.w = focus.w + 10;
+								focus.h = focus.h + 10;
 							}
-							else if(evt.getKeyChar() == '-') {		
-								focus.w = focus.w - 5;
-								focus.h = focus.h - 5;
+							else if(evt.getKeyChar() == '-') {
+								if (focus != null && (focus.w > 40 || focus.h > 45)){
+								focus.w = focus.w - 10;
+								focus.h = focus.h - 10;
+								}
 							}
 
 							if (focus != null){
@@ -150,7 +161,7 @@ class ProjetoFrame extends JFrame {
 							}
 						}
 					}
-		); repaint();
+		);	repaint();
 	this.setTitle("Projeto LP2");
 	this.setSize(550, 550);
 	this.getContentPane().setBackground(new Color(228, 182, 222));	
