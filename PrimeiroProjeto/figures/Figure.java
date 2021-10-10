@@ -21,17 +21,21 @@ public abstract class Figure{
 		this.h = h;
 
 		this.contorno = contorno;
-		this.fundo = fundo;
+		this.fundo = fundo;	
 	}
 	
 	public Figure(){
 		
 	}
+
+    public void drag (int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
+    }	
 	
-    public boolean clicked (int x, int y) { 
+    public boolean clicked (int x, int y) { //mouse event 
         return (this.x<=x && x<=this.x + 
 				this.w && this.y<=y && 
 				y<=this.y + this.h);
-    }
-	
+    }	
 }
