@@ -4,7 +4,8 @@ Objetos: Geladeira, Caixa, Estojo
 Métodos: abrir(), fechar()
 São apresentados objetos.
 Ele retorna true ou false, dependendo da possibilidade
-de serem abertos e fechados com sucesso.
+de serem abertos e fechados com sucesso. Todos os apresentados funcionarão,
+então o retorno é true.
 */
 
 interface Openable{
@@ -48,6 +49,7 @@ Métodos: montar(), desmontar()
 São apresentados objetos diversos.
 O parâmetro é a quantidade de unidades,
 sejam de peças ou pessoas.
+Quantas unidades vão ser adicionadas ou tiradas.
 */  
 
 interface Assemblable{
