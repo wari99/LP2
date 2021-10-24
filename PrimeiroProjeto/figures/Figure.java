@@ -2,10 +2,11 @@ package figures;
 
 import java.awt.Graphics;
 import java.awt.Color;
-
 import java.awt.Point;
 
-public abstract class Figure{
+import ivisible.IVisible;
+
+public abstract class Figure implements IVisible{
 	public int x, y;
 	public int w, h;
 	
@@ -23,11 +24,6 @@ public abstract class Figure{
 		this.contorno = contorno;
 		this.fundo = fundo;	
 	}
-	
-	public Figure(){
-		
-	}
-
     public void drag (int dx, int dy) {
         this.x += dx;
         this.y += dy;
@@ -37,5 +33,6 @@ public abstract class Figure{
         return (this.x<=x && x<=this.x + 
 				this.w && this.y<=y && 
 				y<=this.y + this.h);
-    }	
+    }
+	
 }
