@@ -3,7 +3,7 @@ package figures;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Point;
-
+import java.io.Serializable;
 import ivisible.IVisible;
 
 public abstract class Figure implements IVisible{
@@ -13,7 +13,7 @@ public abstract class Figure implements IVisible{
 	public Color contorno;
 	public Color fundo;
 
-	public abstract void paint (Graphics g);
+	public abstract void paint (Graphics g, boolean focused);
 	
 	public Figure (int x, int y, int w, int h, Color contorno, Color fundo){
 		this.x = x;
