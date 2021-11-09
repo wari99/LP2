@@ -10,9 +10,13 @@ public class Ellipse extends Figure{
 		super(x,y,w,h,contorno,fundo);
 	}
 	
-	public void paint (Graphics g){
+	public void paint (Graphics g, boolean focused){
 		Graphics2D g2d = (Graphics2D) g;
-
+		if (focused) {
+		    g2d.setColor(Color.RED);
+		    g2d.drawRect(this.x-1, this.y-1, this.w+2, this.h+2);			
+		}
+		
 		g2d.setColor(fundo);
 		g2d.fill(new Ellipse2D.Double(this.x, this.y, this.w, this.h));
 		
