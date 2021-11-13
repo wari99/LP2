@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.Graphics;
 import java.awt.Color;
 import figures.*;
+import java.io.*;
 
 class ProjetoApp {
 	public static void main (String[] args) {
@@ -22,6 +23,7 @@ class ProjetoApp {
 	}
 }
 
+@SuppressWarnings("unchecked")
 class ProjetoFrame extends JFrame {
 	ArrayList<Figure> figs = new ArrayList<Figure>();
 	ArrayList<Button> buts = new ArrayList<Button>();
@@ -32,18 +34,38 @@ class ProjetoFrame extends JFrame {
 	Figure focus = null;
     Button focus_but = null;	
 	
-	ProjetoFrame () {
+	public ProjetoFrame () {
+		buts.add(new Button(0, new Rect(0,0,0,0,Color.WHITE,Color.PINK)));
+		buts.add(new Button(1, new Ellipse(0,0,0,0,Color.WHITE,Color.PINK)));
+		buts.add(new Button(2, new Arco(0,0,0,0,Color.WHITE,Color.PINK,20,50)));		
+		buts.add(new Button(3, new Triangulo(0,0,0,0,Color.WHITE,Color.PINK)));	
+
+		try {
+            FileInputStream f = new FileInputStream("proj.bin");
+            ObjectInputStream o = new ObjectInputStream(f);
+            this.figs = (ArrayList<Figure>) o.readObject();
+            o.close();
+        } catch (Exception x) {
+            System.out.println("ERRO!!! <Em abrir o arquivo>");
+        }
+        
+
         this.addWindowListener (
-		new WindowAdapter() {
+            new WindowAdapter() {
                 public void windowClosing (WindowEvent e) {
+                    try {
+                        FileOutputStream f = new FileOutputStream("proj.bin");
+                        ObjectOutputStream o = new ObjectOutputStream(f);
+                        o.writeObject(figs);
+                        o.flush();
+                        o.close();
+                    } catch (Exception x) {
+                    }
                     System.exit(0);
-		}
-	});	
-	
-	buts.add(new Button(1, new Arco(0,0,0,0,Color.PINK,Color.PINK,20,50)));
-	buts.add(new Button(2, new Rect(0,0,0,0,Color.PINK,Color.PINK)));
-	buts.add(new Button(3, new Ellipse(0,0,0,0,Color.PINK,Color.PINK)));
-	buts.add(new Button(4, new Triangulo(0,0,0,0,Color.PINK,Color.PINK)));	
+                }
+            }
+
+        );
 		
 	this.addMouseListener(
 		new MouseAdapter() {
@@ -51,18 +73,40 @@ class ProjetoFrame extends JFrame {
 				posicaodomouse = getMousePosition();
 				focus = null;
 				Color contorno = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
-				Color fundo = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));	
-									
-				for (int i=0; i< buts.size(); i++) {
+				Color fundo = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+				
+				for (Figure fig: figs) {
+					if (fig.clicked(evt.getX(),evt.getY())) { 	
+						focus = fig; 
+					}
+				}
+				
+				if (focus != null){
+					figs.remove(focus);
+					figs.add(focus);
+				} repaint(); 
+				
+				for (Button but: buts) {
+					if (but.clicked(posicaodomouse.x, posicaodomouse.y)){
+						focus_but = but;
+					}
+				}		
+				if(posicaodomouse.x > 70 || posicaodomouse.y > 200){		
 					if ((focus == null) && (focus_but != null)){
-						if(focus_but == buts.get(1)){
+						if(focus_but == buts.get(0)){
 							Figure fig = new Rect(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno);
 							figs.add(fig);
 							focus = fig;
 							focus_but = null;
 						}
-						else if(focus_but == buts.get(2)){
+						else if(focus_but == buts.get(1)){
 							Figure fig = new Ellipse(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno);
+							figs.add(fig);
+							focus = fig;
+							focus_but = null;
+						}
+						else if(focus_but == buts.get(2)){
+							Figure fig = new Arco(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno,rand.nextInt(360),rand.nextInt(360));
 							figs.add(fig);
 							focus = fig;
 							focus_but = null;
@@ -72,36 +116,13 @@ class ProjetoFrame extends JFrame {
 							figs.add(fig);
 							focus = fig;
 							focus_but = null;
-						}
-						else if(focus_but == buts.get(4)){
-							Figure fig = new Arco(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno,rand.nextInt(360),rand.nextInt(360));
-							figs.add(fig);
-							focus = fig;
-							focus_but = null;
 						}						
 					} repaint();
-				}
-					
-				for (Figure fig: figs) {
-					if (fig.clicked(evt.getX(),evt.getY())) { 	
-						focus = fig; 
-						figs.add(focus);				
-						figs.remove(focus);		
-						repaint();
-						break;
-					}
-					else {
-						focus = null;
-					}
-				}
 				
-				for (Button but: buts) {
-					if (but.clicked(posicaodomouse.x, posicaodomouse.y)) {
-						focus_but = but;
-					}
-				}				
+	
 				posicaoanterior = evt.getPoint();
 				repaint();					
+			}
 			}
 		}
 	);
@@ -215,14 +236,11 @@ class ProjetoFrame extends JFrame {
 		
         if (focus != null) focus.paint(g, true);
 		
-         for (Button but: this.buts) {
-             but.paint(g, but == focus_but);
+		for (Button but: this.buts) {
+            but.paint(g,false);
+            if (but ==  focus_but){
+                but.paint(g,true);
+             }
         }
-/*		for (Button but: this.buts) {
-			but.paint(g,false);
-			if (but ==  focus_but){
-				but.paint(g,true);
-			}
-		}*/		
-	}
+    }	
 }
