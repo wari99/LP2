@@ -40,16 +40,47 @@ class ProjetoFrame extends JFrame {
 		}
 	});	
 	
-	buts.add( new Button(1, new Rect(0,0,0,0,Color.GRAY,Color.GRAY)));
-	buts.add( new Button(2, new Arco(0,0,0,0,Color.GRAY,Color.GRAY,0,0)));
-	buts.add( new Button(3, new Ellipse(0,0,0,0,Color.GRAY,Color.GRAY)));
-	buts.add( new Button(4, new Triangulo(0,0,0,0,Color.GRAY,Color.GRAY)));	
+	buts.add(new Button(1, new Arco(0,0,0,0,Color.PINK,Color.PINK,20,50)));
+	buts.add(new Button(2, new Rect(0,0,0,0,Color.PINK,Color.PINK)));
+	buts.add(new Button(3, new Ellipse(0,0,0,0,Color.PINK,Color.PINK)));
+	buts.add(new Button(4, new Triangulo(0,0,0,0,Color.PINK,Color.PINK)));	
 		
 	this.addMouseListener(
 		new MouseAdapter() {
 			public void mousePressed (MouseEvent evt) {
 				posicaodomouse = getMousePosition();
 				focus = null;
+				Color contorno = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+				Color fundo = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));	
+									
+				for (int i=0; i< buts.size(); i++) {
+					if ((focus == null) && (focus_but != null)){
+						if(focus_but == buts.get(1)){
+							Figure fig = new Rect(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno);
+							figs.add(fig);
+							focus = fig;
+							focus_but = null;
+						}
+						else if(focus_but == buts.get(2)){
+							Figure fig = new Ellipse(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno);
+							figs.add(fig);
+							focus = fig;
+							focus_but = null;
+						}
+						else if(focus_but == buts.get(3)){
+							Figure fig = new Triangulo(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno);
+							figs.add(fig);
+							focus = fig;
+							focus_but = null;
+						}
+						else if(focus_but == buts.get(4)){
+							Figure fig = new Arco(posicaodomouse.x, posicaodomouse.y,80,60,fundo,contorno,rand.nextInt(360),rand.nextInt(360));
+							figs.add(fig);
+							focus = fig;
+							focus_but = null;
+						}						
+					} repaint();
+				}
 					
 				for (Figure fig: figs) {
 					if (fig.clicked(evt.getX(),evt.getY())) { 	
@@ -182,6 +213,16 @@ class ProjetoFrame extends JFrame {
 			fig.paint(g, false);
 		}
 		
-        if (focus != null) focus.paint(g, true);		
+        if (focus != null) focus.paint(g, true);
+		
+         for (Button but: this.buts) {
+             but.paint(g, but == focus_but);
+        }
+/*		for (Button but: this.buts) {
+			but.paint(g,false);
+			if (but ==  focus_but){
+				but.paint(g,true);
+			}
+		}*/		
 	}
 }
