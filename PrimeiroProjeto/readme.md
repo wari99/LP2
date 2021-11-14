@@ -11,10 +11,15 @@ figuras do projeto possuirão as mais variadas cores, uma vez que, estão sujeit
 tabela de cores RGB. As cores mutáveis são as de contorno e as de fundo. Ambas são geradas aleatoriamente.
 Abaixo estão as teclas que ativarão comandos durante a execução do programa.
 
+Todas as alterações feitas no espaço de criação serão salvas em um arquivo chamado proj.bin, onde ao 
+executar novamente o programa, todas as alterações e criações feitas anteriormente estarão lá salvas.
+Existe um menu de botões para criar o Retangulo, Triangulo, Arco e Elipse, alternativamente. 
+
 ## Lista de Comandos
 
 ***CRIAÇÃO DE FIGURAS:***
 ```diff
+@@   ATRAVES DO MENU DE BOTOES AO LADO ESQUERDO     @@
 @@   E : CRIA UMA NOVA ELIPSE NO LOCAL DO CURSOR    @@
 @@   R : CRIA UM NOVO RETANGULO NO LOCAL DO CURSOR  @@
 @@   T : CRIA UM NOVO TRIANGULO NO LOCAL DO CURSOR  @@
